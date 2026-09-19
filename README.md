@@ -184,7 +184,8 @@ rapuh; peta transisi + `lockForUpdate()` membuat notifikasi kedua tidak berefek.
 **4. Memakai HTTP client, bukan SDK `midtrans-php`.**
 Tiga alasan: bisa diuji penuh dengan `Http::fake()`; tidak memakai state global
 (`\Midtrans\Config::$serverKey`) yang bermasalah pada aplikasi async/multi-tenant; dan
-hanya satu endpoint (Snap) yang dibutuhkan.
+hanya satu endpoint (Snap) yang dibutuhkan. Paket `midtrans/midtrans-php` sudah dicopot
+dari `composer.json` agar tidak ada dependensi mati.
 
 **5. Keranjang disimpan di session, bukan database.**
 Pelanggan tidak perlu akun sehingga friction checkout minimal. Konsekuensinya keranjang
