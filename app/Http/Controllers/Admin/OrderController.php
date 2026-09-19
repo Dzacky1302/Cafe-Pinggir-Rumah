@@ -22,12 +22,13 @@ class OrderController extends Controller
             $q = $request->search;
             $query->where(function ($w) use ($q) {
                 $w->where('order_id', 'like', "%{$q}%")
-                  ->orWhere('customer_name', 'like', "%{$q}%")
-                  ->orWhere('phone', 'like', "%{$q}%");
+                    ->orWhere('customer_name', 'like', "%{$q}%")
+                    ->orWhere('phone', 'like', "%{$q}%");
             });
         }
 
         $orders = $query->latest()->paginate(15)->withQueryString();
+
         return view('admin.orders.index', compact('orders'));
     }
 
@@ -42,12 +43,14 @@ class OrderController extends Controller
             'status' => 'required|in:pending,paid,processing,done,cancelled',
         ]);
         $order->update($data);
+
         return back()->with('success', 'Status pesanan diperbarui.');
     }
 
     public function destroy(Order $order)
     {
         $order->delete();
+
         return redirect()->route('admin.orders.index')->with('success', 'Pesanan dihapus.');
     }
 }

@@ -15,9 +15,10 @@ class ProductController extends Controller
         if ($request->filled('search')) {
             $q = $request->search;
             $query->where('name', 'like', "%{$q}%")
-                  ->orWhere('variant', 'like', "%{$q}%");
+                ->orWhere('variant', 'like', "%{$q}%");
         }
         $products = $query->orderBy('name')->paginate(12)->withQueryString();
+
         return view('admin.products.index', compact('products'));
     }
 
@@ -32,6 +33,7 @@ class ProductController extends Controller
         $data['price'] = (int) round($data['price'] * 100); // convert Rp → cent
         $data['image'] = $this->handleImage($request, null);
         Product::create($data);
+
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil ditambahkan.');
     }
 
@@ -46,6 +48,7 @@ class ProductController extends Controller
         $data['price'] = (int) round($data['price'] * 100); // convert Rp → cent
         $data['image'] = $this->handleImage($request, $product->image);
         $product->update($data);
+
         return redirect()->route('admin.products.index')->with('success', 'Produk berhasil diperbarui.');
     }
 
@@ -57,17 +60,18 @@ class ProductController extends Controller
             Storage::disk('public')->delete($path);
         }
         $product->delete();
+
         return redirect()->route('admin.products.index')->with('success', 'Produk dihapus.');
     }
 
     private function validateData(Request $request): array
     {
         return $request->validate([
-            'name'    => 'required|string|max:150',
+            'name' => 'required|string|max:150',
             'variant' => 'nullable|string|max:100',
-            'price'   => 'required|numeric|min:0',
+            'price' => 'required|numeric|min:0',
             'image_file' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'image_url'  => 'nullable|url|max:500',
+            'image_url' => 'nullable|url|max:500',
         ]);
     }
 
@@ -80,7 +84,8 @@ class ProductController extends Controller
                 Storage::disk('public')->delete($path);
             }
             $stored = $request->file('image_file')->store('products', 'public');
-            return '/storage/' . $stored;
+
+            return '/storage/'.$stored;
         }
 
         if ($request->filled('image_url')) {

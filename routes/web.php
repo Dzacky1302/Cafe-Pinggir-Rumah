@@ -65,4 +65,3 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('/products/{product}', [AdminProduct::class, 'destroy'])->name('products.destroy');
     });
 });
-

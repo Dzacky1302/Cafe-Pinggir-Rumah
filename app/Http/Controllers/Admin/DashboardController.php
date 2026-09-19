@@ -13,14 +13,14 @@ class DashboardController extends Controller
         $today = now()->startOfDay();
 
         $stats = [
-            'orders_today'  => Order::where('created_at', '>=', $today)->count(),
+            'orders_today' => Order::where('created_at', '>=', $today)->count(),
             'revenue_today' => (int) Order::where('created_at', '>=', $today)
-                                    ->whereIn('status', ['paid', 'processing', 'done'])
-                                    ->sum('total'),
-            'pending'       => Order::where('status', 'pending')->count(),
-            'processing'    => Order::where('status', 'processing')->count(),
-            'total_orders'  => Order::count(),
-            'total_products'=> Product::count(),
+                ->whereIn('status', ['paid', 'processing', 'done'])
+                ->sum('total'),
+            'pending' => Order::where('status', 'pending')->count(),
+            'processing' => Order::where('status', 'processing')->count(),
+            'total_orders' => Order::count(),
+            'total_products' => Product::count(),
         ];
 
         $recent = Order::latest()->limit(8)->get();

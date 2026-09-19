@@ -24,7 +24,7 @@ final class OrderStatusService
      * notifikasi yang belum dijawab sukses.
      *
      * @param  array<string, mixed>  $payload  isi notifikasi yang signature-nya SUDAH terverifikasi
-     * @return bool  true bila status berubah, false bila tidak ada perubahan
+     * @return bool true bila status berubah, false bila tidak ada perubahan
      */
     public function applyMidtransStatus(Order $order, array $payload): bool
     {

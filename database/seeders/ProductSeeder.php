@@ -91,14 +91,13 @@ class ProductSeeder extends Seeder
         foreach ($coffees as $c) {
             foreach ($c['variants'] as $v) {
                 Product::create([
-                    'name'        => $c['name'] . ' (' . ucfirst($v['variant']) . ')',
+                    'name' => $c['name'].' ('.ucfirst($v['variant']).')',
                     'description' => $c['description'],
-                    'variant'     => $v['variant'],
-                    'price'       => $v['price'],
-                    'image'       => $c['image'],
+                    'variant' => $v['variant'],
+                    'price' => $v['price'],
+                    'image' => $c['image'],
                 ]);
             }
         }
     }
 }
-
