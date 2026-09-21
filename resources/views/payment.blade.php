@@ -54,7 +54,7 @@
             <form method="POST" action="{{ route('checkout.charge', $order->order_id) }}">
                 @csrf
                 <button class="btn gold block" type="submit" style="padding:1rem">
-                    <i class="fa-solid fa-lock"></i> Bayar Sekarang — Rp {{ number_format($total/100,0,',','.') }}
+                    <i class="fa-solid fa-lock"></i> Bayar Sekarang — Rp {{ number_format($total,0,',','.') }}
                 </button>
             </form>
 
@@ -80,17 +80,17 @@
                     {{ $item['name'] }}
                     <small>{{ ucfirst($item['variant'] ?? 'Regular') }} × {{ $item['qty'] }}</small>
                 </div>
-                <div class="amt">Rp {{ number_format(($item['price']*$item['qty'])/100,0,',','.') }}</div>
+                <div class="amt">Rp {{ number_format($item['price']*$item['qty'],0,',','.') }}</div>
             </div>
         @endforeach
 
-        <div class="summary-row" style="margin-top:.5rem"><span>Subtotal</span><span>Rp {{ number_format($total/100,0,',','.') }}</span></div>
+        <div class="summary-row" style="margin-top:.5rem"><span>Subtotal</span><span>Rp {{ number_format($total,0,',','.') }}</span></div>
         <div class="summary-row"><span>Ongkir</span><span style="color:#1e6b3a;font-weight:600">Gratis</span></div>
         <div class="summary-row"><span>Biaya Layanan</span><span>Rp 0</span></div>
 
         <div class="summary-row total">
             <span>Total</span>
-            <span>Rp {{ number_format($total/100,0,',','.') }}</span>
+            <span>Rp {{ number_format($total,0,',','.') }}</span>
         </div>
 
         <div style="margin-top:1rem;padding:.75rem 1rem;background:var(--cream);border-radius:10px;font-size:.85rem">

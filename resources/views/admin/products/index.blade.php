@@ -39,7 +39,7 @@
                         </td>
                         <td><strong>{{ $p->name }}</strong></td>
                         <td>{{ ucfirst($p->variant ?? '-') }}</td>
-                        <td><strong>Rp {{ number_format($p->price/100,0,',','.') }}</strong></td>
+                        <td><strong>Rp {{ number_format($p->price,0,',','.') }}</strong></td>
                         <td>
                             <div style="display:flex;gap:.4rem">
                                 <a href="{{ route('admin.products.edit', $p) }}" class="btn small info"><i class="fa-solid fa-pen"></i></a>

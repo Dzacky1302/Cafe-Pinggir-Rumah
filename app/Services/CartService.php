@@ -48,7 +48,7 @@ final class CartService
     }
 
     /**
-     * Total belanja dalam satuan simpan (×100 — lihat migrasi products).
+     * Total belanja dalam Rupiah (integer).
      */
     public function total(): int
     {

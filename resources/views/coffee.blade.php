@@ -94,13 +94,13 @@
                     </div>
                     <h3>{{ $base }}</h3>
                     <p class="desc">{{ $variants[0]->description ?? 'Kopi pilihan dengan aroma harum dan rasa khas yang memanjakan lidah.' }}</p>
-                    <div class="price">Rp {{ number_format($minPrice/100,0,',','.') }} <small>/ mulai</small></div>
+                    <div class="price">Rp {{ number_format($minPrice,0,',','.') }} <small>/ mulai</small></div>
 
                     <form method="POST" action="{{ route('cart.add') }}">
                         @csrf
                         <select class="variant-select" name="product_id">
                             @foreach($variants as $v)
-                                <option value="{{ $v->id }}">{{ ucfirst($v->variant ?? 'Regular') }} — Rp {{ number_format($v->price/100,0,',','.') }}</option>
+                                <option value="{{ $v->id }}">{{ ucfirst($v->variant ?? 'Regular') }} — Rp {{ number_format($v->price,0,',','.') }}</option>
                             @endforeach
                         </select>
                         <button class="btn block" type="submit">

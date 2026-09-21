@@ -33,7 +33,7 @@ final class PaymentController extends Controller
             'token' => $snap['token'],
             'redirect_url' => $snap['redirect_url'],
             'order_id' => $order->order_id,
-            'gross_amount' => intdiv((int) $order->total, 100),
+            'gross_amount' => (int) $order->total,
         ]);
     }
 

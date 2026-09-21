@@ -108,14 +108,14 @@
                 <div class="summary-item">
                     <div>
                         <div class="name">{{ $item['name'] }}</div>
-                        <div class="qty-x">{{ $item['qty'] }} × Rp {{ number_format($item['price']/100,0,',','.') }}</div>
+                        <div class="qty-x">{{ $item['qty'] }} × Rp {{ number_format($item['price'],0,',','.') }}</div>
                     </div>
-                    <div class="price">Rp {{ number_format(($item['price']*$item['qty'])/100,0,',','.') }}</div>
+                    <div class="price">Rp {{ number_format($item['price']*$item['qty'],0,',','.') }}</div>
                 </div>
             @endforeach
             <div class="summary-total">
                 <span>Total</span>
-                <span>Rp {{ number_format($total/100,0,',','.') }}</span>
+                <span>Rp {{ number_format($total,0,',','.') }}</span>
             </div>
             <p style="margin-top:1rem;font-size:.8rem;color:var(--text-muted);text-align:center">
                 <i class="fa-solid fa-shield-halved" style="color:var(--gold-dark)"></i> Pembayaran aman via Midtrans

@@ -95,7 +95,7 @@
                     <span class="price-prefix">Rp</span>
                     <input type="number"
                            name="price"
-                           value="{{ old('price', isset($product) ? $product->price / 100 : '') }}"
+                           value="{{ old('price', $product->price ?? '') }}"
                            min="0"
                            step="500"
                            placeholder="25000"

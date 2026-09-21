@@ -121,7 +121,7 @@ class MidtransSignatureTest extends TestCase
 
     public function test_gross_amount_matching_converts_rupiah_strings_back_to_the_stored_scale(): void
     {
-        $order = new Order(['total' => 36000 * 100]);
+        $order = new Order(['total' => 36000]);
 
         $this->assertTrue($this->service->grossAmountMatches($order, '36000.00'));
         $this->assertFalse($this->service->grossAmountMatches($order, '35000.00'));

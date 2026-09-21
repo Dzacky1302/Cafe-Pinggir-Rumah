@@ -35,8 +35,8 @@
                             </td>
                             <td>{{ ucfirst($it['variant'] ?? '-') }}</td>
                             <td>{{ $it['qty'] }}</td>
-                            <td>Rp {{ number_format($it['price']/100,0,',','.') }}</td>
-                            <td><strong>Rp {{ number_format(($it['price']*$it['qty'])/100,0,',','.') }}</strong></td>
+                            <td>Rp {{ number_format($it['price'],0,',','.') }}</td>
+                            <td><strong>Rp {{ number_format($it['price']*$it['qty'],0,',','.') }}</strong></td>
                         </tr>
                     @endforeach
                 </tbody>

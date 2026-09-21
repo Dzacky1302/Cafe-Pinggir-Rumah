@@ -28,7 +28,7 @@
         <div class="stat-card green">
             <div class="info">
                 <div class="lbl">Pendapatan Hari Ini</div>
-                <div class="val">Rp {{ number_format($stats['revenue_today']/100,0,',','.') }}</div>
+                <div class="val">Rp {{ number_format($stats['revenue_today'],0,',','.') }}</div>
             </div>
             <div class="icon"><i class="fa-solid fa-sack-dollar"></i></div>
         </div>

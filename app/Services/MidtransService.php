@@ -94,7 +94,7 @@ final class MidtransService
         foreach ($order->items ?? [] as $item) {
             $items[] = [
                 'id' => (string) $item['id'],
-                'price' => intdiv((int) $item['price'], 100),
+                'price' => (int) $item['price'],
                 'quantity' => (int) $item['qty'],
                 'name' => Str::limit((string) $item['name'], 50, ''),
             ];
@@ -105,7 +105,7 @@ final class MidtransService
         return [
             'transaction_details' => [
                 'order_id' => $order->order_id,
-                'gross_amount' => intdiv((int) $order->total, 100),
+                'gross_amount' => (int) $order->total,
             ],
             'item_details' => $items,
             'customer_details' => [
@@ -148,7 +148,7 @@ final class MidtransService
      * Pertahanan berlapis: setelah signature valid, pastikan nominal yang
      * dibayar memang sama dengan total pesanan di database.
      *
-     * Total pesanan disimpan dalam satuan ×100 (lihat migrasi orders).
+     * Total pesanan disimpan dalam rupiah (integer).
      */
     public function grossAmountMatches(Order $order, string $grossAmount): bool
     {
@@ -156,6 +156,6 @@ final class MidtransService
             return false;
         }
 
-        return (int) round(((float) $grossAmount) * 100) === (int) $order->total;
+        return (int) round((float) $grossAmount) === (int) $order->total;
     }
 }

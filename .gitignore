@@ -24,3 +24,7 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+migrate_out.txt
+scan.txt
+test-report.xml
+test_results.txt

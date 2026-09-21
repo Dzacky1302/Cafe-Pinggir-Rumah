@@ -26,7 +26,7 @@ class MidtransWebhookTest extends TestCase
 
     private function grossOf(Order $order): string
     {
-        return number_format((int) $order->total / 100, 2, '.', '');
+        return number_format((int) $order->total, 2, '.', '');
     }
 
     /**

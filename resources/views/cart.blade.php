@@ -46,7 +46,7 @@
                         <span class="qty"><i class="fa-solid fa-cube"></i> {{ $item['qty'] }} pcs</span>
                     </div>
                     <div class="cart-item-price">
-                        Rp {{ number_format(($item['price']*$item['qty'])/100,0,',','.') }}
+                        Rp {{ number_format($item['price']*$item['qty'],0,',','.') }}
                     </div>
                     <div class="actions">
                         <form method="POST" action="{{ url('cart/remove/'.$item['id']) }}">
@@ -62,7 +62,7 @@
     @if(!empty($cart))
     <aside class="cart-summary">
         <h3><i class="fa-solid fa-receipt" style="color:var(--gold-dark)"></i> Ringkasan Pesanan</h3>
-        <div class="summary-row"><span>Subtotal</span><span>Rp {{ number_format($total/100,0,',','.') }}</span></div>
+        <div class="summary-row"><span>Subtotal</span><span>Rp {{ number_format($total,0,',','.') }}</span></div>
         <div class="summary-row"><span>Ongkir</span><span style="color:#1e6b3a;font-weight:600">Gratis</span></div>
         <div class="summary-row"><span>Pajak (0%)</span><span>Rp 0</span></div>
 
@@ -73,7 +73,7 @@
 
         <div class="summary-row total">
             <span>Total</span>
-            <span>Rp {{ number_format($total/100,0,',','.') }}</span>
+            <span>Rp {{ number_format($total,0,',','.') }}</span>
         </div>
 
         <a href="{{ route('checkout.type') }}" class="btn gold block" style="margin-top:1.25rem">

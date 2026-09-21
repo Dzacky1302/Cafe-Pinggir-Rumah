@@ -74,7 +74,7 @@ class CartTest extends TestCase
             ->get(route('cart'));
 
         $response->assertOk();
-        $response->assertViewHas('total', 50000 * 100);
+        $response->assertViewHas('total', 50000);
         $response->assertSee('50.000', false);
     }
 

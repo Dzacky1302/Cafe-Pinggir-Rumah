@@ -111,7 +111,7 @@ class CheckoutFlowTest extends TestCase
         $this->assertSame('dine_in', $order->order_type);
         $this->assertSame('A5', $order->table_number);
         $this->assertNull($order->phone);
-        $this->assertSame(36000 * 100, $order->total);
+        $this->assertSame(36000, $order->total);
         $this->assertSame(OrderStatus::PENDING, $order->status);
         $this->assertCount(1, $order->items);
         $this->assertSame(2, $order->items[0]['qty']);

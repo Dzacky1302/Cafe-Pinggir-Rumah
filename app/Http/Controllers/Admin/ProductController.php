@@ -30,7 +30,6 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $data = $this->validateData($request);
-        $data['price'] = (int) round($data['price'] * 100); // convert Rp → cent
         $data['image'] = $this->handleImage($request, null);
         Product::create($data);
 
@@ -45,7 +44,6 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $data = $this->validateData($request);
-        $data['price'] = (int) round($data['price'] * 100); // convert Rp → cent
         $data['image'] = $this->handleImage($request, $product->image);
         $product->update($data);
 
@@ -67,9 +65,11 @@ class ProductController extends Controller
     private function validateData(Request $request): array
     {
         return $request->validate([
+            'category_id' => 'nullable|exists:categories,id',
             'name' => 'required|string|max:150',
             'variant' => 'nullable|string|max:100',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|integer|min:0',
+            'status' => 'nullable|in:active,inactive',
             'image_file' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'image_url' => 'nullable|url|max:500',
         ]);

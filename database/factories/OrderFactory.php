@@ -24,7 +24,7 @@ class OrderFactory extends Factory
                 'id' => 1,
                 'name' => 'Espresso (Single)',
                 'variant' => 'single',
-                'price' => 18000 * 100,
+                'price' => 18000,
                 'image' => null,
                 'qty' => 2,
             ],
@@ -80,8 +80,7 @@ class OrderFactory extends Factory
     }
 
     /**
-     * Pesanan yang sudah terbayar — hanya dipakai setelah kolom pembayaran
-     * (paid_at, payment_type, fraud_status) tersedia dari migrasi.
+     * Pesanan yang sudah terbayar.
      */
     public function paid(): static
     {
@@ -95,7 +94,7 @@ class OrderFactory extends Factory
     }
 
     /**
-     * Hitung total dari daftar item (harga item sudah dalam satuan ×100).
+     * Hitung total dari daftar item (harga dalam rupiah langsung).
      *
      * @param  array<int, array<string, mixed>>  $items
      */
@@ -106,8 +105,7 @@ class OrderFactory extends Factory
     }
 
     /**
-     * Mengikuti pola yang dipakai CoffeeController saat membuat pesanan
-     * (lihat CoffeeController::storeCheckout).
+     * Mengikuti pola yang dipakai CheckoutService saat membuat pesanan.
      */
     private function generateOrderId(): string
     {

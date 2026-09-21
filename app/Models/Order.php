@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\OrderStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Order extends Model
 {
@@ -30,10 +31,15 @@ class Order extends Model
         return 'order_id';
     }
 
+    public function orderItems(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
     // Helpers
     public function getTotalRupiahAttribute(): string
     {
-        return number_format($this->total / 100, 0, ',', '.');
+        return number_format($this->total, 0, ',', '.');
     }
 
     public function getStatusColorAttribute(): string
