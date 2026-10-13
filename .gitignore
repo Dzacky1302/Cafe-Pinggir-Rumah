@@ -28,3 +28,7 @@ migrate_out.txt
 scan.txt
 test-report.xml
 test_results.txt
+
+# File bantu lokal (log debug & script bat deploy)
+_*.txt
+/scripts/
