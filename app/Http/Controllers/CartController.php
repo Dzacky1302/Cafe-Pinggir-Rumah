@@ -24,6 +24,16 @@ final class CartController extends Controller
 
         $this->cart->add($product);
 
+        // Jalur AJAX: tanpa reload, agar pembeli tidak terlempar ke atas halaman
+        // saat menambahkan banyak item. Jalur redirect (tanpa JS) tetap dipertahankan
+        // agar perilaku lama & test yang ada tidak berubah.
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => 'Produk ditambahkan ke keranjang',
+                'count'   => $this->cart->count(),
+            ]);
+        }
+
         return redirect()->back()->with('success', 'Produk ditambahkan ke keranjang');
     }
 
