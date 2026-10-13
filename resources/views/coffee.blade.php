@@ -116,7 +116,7 @@
                     <p class="desc">{{ $variants[0]->description ?? 'Kopi pilihan dengan aroma harum dan rasa khas yang memanjakan lidah.' }}</p>
                     <div class="price">Rp {{ number_format($minPrice,0,',','.') }} <small>/ mulai</small></div>
 
-                    <form method="POST" action="{{ route('cart.add') }}">
+                    <form method="POST" action="{{ route('cart.add') }}" data-ajax-cart>
                         @csrf
                         <select class="variant-select" name="product_id">
                             @foreach($variants as $v)
@@ -162,4 +162,77 @@
 </section>
 
 @endsection
+
+@push('scripts')
+{{-- AJAX add-to-cart: tanpa reload, posisi scroll tetap, badge + toast realtime --}}
+<script>
+(function(){
+    var toastEl = null;
+    function toast(msg, isError){
+        if(!toastEl){
+            toastEl = document.createElement('div');
+            toastEl.className = 'toast';
+            document.body.appendChild(toastEl);
+        }
+        toastEl.classList.toggle('is-error', !!isError);
+        toastEl.innerHTML = (isError
+            ? '<i class="fa-solid fa-circle-exclamation"></i> '
+            : '<i class="fa-solid fa-circle-check"></i> ') + msg;
+        toastEl.classList.remove('show');
+        void toastEl.offsetWidth; /* reflow supaya animasi bisa diulang */
+        toastEl.classList.add('show');
+        clearTimeout(toastEl._t);
+        toastEl._t = setTimeout(function(){ toastEl.classList.remove('show'); }, 3000);
+    }
+
+    document.querySelectorAll('form[data-ajax-cart]').forEach(function(form){
+        form.addEventListener('submit', function(e){
+            e.preventDefault();
+
+            var btn = form.querySelector('button[type="submit"]');
+            var original = btn ? btn.innerHTML : '';
+            if(btn){ btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Menambahkan...'; }
+
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': form.querySelector('[name="_token"]').value
+                },
+                body: new FormData(form)
+            })
+            .then(function(r){
+                return r.json().catch(function(){ return {}; }).then(function(data){
+                    if(!r.ok || data.success === false){
+                        throw new Error(data.message || 'Gagal menambahkan ke keranjang');
+                    }
+                    return data;
+                });
+            })
+            .then(function(data){
+                /* Update badge keranjang di navbar tanpa reload */
+                var badge = document.querySelector('.cart-btn .badge');
+                if(badge && typeof data.count !== 'undefined'){
+                    badge.textContent = data.count;
+                    badge.animate(
+                        [{transform:'scale(1)'},{transform:'scale(1.6)'},{transform:'scale(1)'}],
+                        {duration:400, easing:'ease-out'}
+                    );
+                }
+                if(btn){
+                    btn.innerHTML = '<i class="fa-solid fa-check"></i> Ditambahkan!';
+                    setTimeout(function(){ btn.disabled = false; btn.innerHTML = original; }, 1400);
+                }
+                toast(data.message || 'Produk ditambahkan ke keranjang');
+            })
+            .catch(function(err){
+                if(btn){ btn.disabled = false; btn.innerHTML = original; }
+                toast(err.message || 'Terjadi kesalahan, coba lagi', true);
+            });
+        });
+    });
+})();
+</script>
+@endpush
 

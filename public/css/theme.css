@@ -160,3 +160,19 @@ body::after{
 .gold-divider::before,.gold-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
 .gold-divider::after{background:linear-gradient(90deg,var(--gold),transparent)}
 .gold-divider i{color:var(--gold-dark);font-size:.85rem}
+
+/* Toast — notifikasi AJAX tanpa reload halaman */
+.toast{
+    position:fixed;left:50%;bottom:1.5rem;transform:translate(-50%,130%);
+    display:flex;align-items:center;gap:.7rem;
+    background:var(--coffee-900);color:#fff;
+    padding:.85rem 1.3rem;border-radius:999px;
+    border:1px solid rgba(200,161,101,.35);
+    box-shadow:0 12px 32px rgba(43,26,16,.35);
+    font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:500;
+    z-index:10000;opacity:0;pointer-events:none;
+    transition:transform .45s cubic-bezier(.22,1,.36,1),opacity .45s;
+}
+.toast.show{transform:translate(-50%,0);opacity:1}
+.toast i{color:var(--gold)}
+.toast.is-error i{color:#ff8a8a}

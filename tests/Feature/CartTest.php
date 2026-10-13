@@ -85,4 +85,25 @@ class CartTest extends TestCase
         $response->assertOk();
         $response->assertViewHas('total', 0);
     }
+
+    /**
+     * Jalur AJAX (Accept: application/json) harus membalas JSON berisi
+     * jumlah keranjang terbaru, bukan redirect — agar frontend tidak
+     * perlu reload halaman (pembeli tetap di posisi scroll yang sama).
+     */
+    public function test_ajax_adding_replies_with_json_and_updated_cart_count(): void
+    {
+        $product = Product::factory()->create();
+
+        $this->postJson(route('cart.add'), ['product_id' => $product->id])
+            ->assertOk()
+            ->assertJson([
+                'message' => 'Produk ditambahkan ke keranjang',
+                'count'   => 1,
+            ]);
+
+        $this->postJson(route('cart.add'), ['product_id' => $product->id])
+            ->assertOk()
+            ->assertJson(['count' => 2]);
+    }
 }
