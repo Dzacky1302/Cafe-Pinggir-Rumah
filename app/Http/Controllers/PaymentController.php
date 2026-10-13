@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Services\MidtransService;
+use Illuminate\Http\Client\ConnectionException;
 use RuntimeException;
 
 final class PaymentController extends Controller
@@ -23,6 +24,11 @@ final class PaymentController extends Controller
 
         try {
             $snap = $this->midtrans->createSnapToken($order);
+        } catch (ConnectionException) {
+            // cURL error (timeout/dsb) BUKAN turunan RuntimeException, jadi tanpa
+            // catch terpisah pengguna melihat halaman exception mentah. Terjemahkan
+            // ke pesan yang bisa ditindaklanjuti pengguna.
+            return back()->with('error', 'Koneksi ke server pembayaran gagal. Periksa internet Anda, lalu coba lagi.');
         } catch (RuntimeException $e) {
             return back()->with('error', $e->getMessage());
         }

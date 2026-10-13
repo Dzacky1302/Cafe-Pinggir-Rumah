@@ -67,7 +67,12 @@ final class MidtransService
         $response = Http::withBasicAuth($this->serverKey(), '')
             ->asJson()
             ->acceptJson()
-            ->timeout(15)
+            // connectTimeout: Guzzle default hanya 10 detik untuk fase koneksi.
+            // Pernah gagal nyata dengan "cURL error 28 ... after 10003 ms" saat
+            // jaringan sedang lambat; dinaikkan agar blip singkat tidak langsung
+            // melempar pengguna ke halaman error.
+            ->connectTimeout(20)
+            ->timeout(30)
             ->post($this->baseUrl().'/snap/v1/transactions', $this->payloadFor($order));
 
         if (! $response->successful()) {

@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\Enums\OrderStatus;
 use App\Models\Order;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 /**
@@ -50,5 +52,31 @@ class PaymentAccessTest extends TestCase
 
         $this->assertSame(OrderStatus::PENDING, $order->fresh()->status);
         $this->assertNull($order->fresh()->payment_method);
+    }
+
+    /**
+     * Koneksi gagal ke Midtrans (cURL error 28 / timeout) harus tampil sebagai
+     * flash error yang ramah di halaman pembayaran — bukan halaman exception
+     * mentah. ConnectionException extends HttpClientException extends Exception,
+     * sehingga TIDAK tertangkap oleh catch (RuntimeException) yang sudah ada.
+     */
+    public function test_a_midtrans_connection_failure_shows_a_friendly_flash_instead_of_an_exception_page(): void
+    {
+        config(['services.midtrans.server_key' => 'SB-Midtest-key']);
+
+        Http::fake(function (): never {
+            throw new ConnectionException(
+                'cURL error 28: Failed to connect to app.sandbox.midtrans.com port 443 after 10003 ms: Timeout was reached'
+            );
+        });
+
+        $order = Order::factory()->pending()->create();
+
+        $this->withSession(['current_order_id' => $order->order_id])
+            ->post(route('checkout.charge', $order->order_id))
+            ->assertRedirect()
+            ->assertSessionHas('error', function (string $message): bool {
+                return str_contains($message, 'Koneksi ke server pembayaran gagal');
+            });
     }
 }
