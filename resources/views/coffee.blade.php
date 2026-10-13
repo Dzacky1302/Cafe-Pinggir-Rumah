@@ -28,19 +28,39 @@
     </div>
 </section>
 
+<!-- MARQUEE EMAS -->
+<div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+        <span>
+            <i class="fa-solid fa-mug-saucer"></i> Fresh Roasted
+            <i class="fa-solid fa-seedling"></i> Single Origin
+            <i class="fa-solid fa-fire"></i> Hand Brewed
+            <i class="fa-solid fa-truck-fast"></i> Fast Delivery
+            <i class="fa-solid fa-leaf"></i> 100% Arabika
+        </span>
+        <span>
+            <i class="fa-solid fa-mug-saucer"></i> Fresh Roasted
+            <i class="fa-solid fa-seedling"></i> Single Origin
+            <i class="fa-solid fa-fire"></i> Hand Brewed
+            <i class="fa-solid fa-truck-fast"></i> Fast Delivery
+            <i class="fa-solid fa-leaf"></i> 100% Arabika
+        </span>
+    </div>
+</div>
+
 <!-- FEATURES -->
 <section class="features">
-    <div class="feature-card">
+    <div class="feature-card" data-reveal>
         <div class="feature-icon"><i class="fa-solid fa-seedling"></i></div>
         <h4>100% Biji Pilihan</h4>
         <p>Biji kopi single origin dari petani lokal terbaik Nusantara.</p>
     </div>
-    <div class="feature-card">
+    <div class="feature-card" data-reveal>
         <div class="feature-icon"><i class="fa-solid fa-mug-hot"></i></div>
         <h4>Barista Berpengalaman</h4>
         <p>Diracik oleh barista bersertifikat dengan penuh cinta.</p>
     </div>
-    <div class="feature-card">
+    <div class="feature-card" data-reveal>
         <div class="feature-icon"><i class="fa-solid fa-truck-fast"></i></div>
         <h4>Pesan &amp; Bayar Mudah</h4>
         <p>Checkout instan dengan pembayaran aman via Midtrans.</p>
@@ -49,7 +69,7 @@
 
 <!-- MENU -->
 <section class="menu-section container" id="menu">
-    <div class="section-title">
+    <div class="section-title" data-reveal>
         <small>Our Menu</small>
         <h2>Katalog Kopi Signature</h2>
         <p>Nikmati pilihan menu kopi terbaik kami — dari klasik espresso hingga racikan modern kekinian.</p>
@@ -81,7 +101,7 @@
                 $minPrice = min(array_map(fn($x)=>$x->price,$variants));
                 $rating = number_format(4.5 + (($loop->index % 5) * 0.1), 1);
             @endphp
-            <div class="product-card">
+            <div class="product-card" data-reveal style="--d:{{ ($loop->index % 6) * 0.06 }}s">
                 <div class="product-image">
                     <img src="{{ $img }}" alt="{{ $base }}" onerror="this.src='{{ $defaultImages[0] }}'">
                     <span class="product-tag">{{ $tag }}</span>
@@ -119,7 +139,7 @@
         <div class="about-img">
             <img src="https://images.unsplash.com/photo-1453614512568-c4024d13c247?auto=format&fit=crop&w=800&q=80" alt="Cafe Interior">
         </div>
-        <div class="about-content">
+        <div class="about-content" data-reveal>
             <small>Tentang Kami</small>
             <h2>Sepenggal Cerita di Balik Setiap Cangkir</h2>
             <p>Brew &amp; Bean Café hadir sejak 2024 dengan satu misi sederhana — menyajikan kopi berkualitas premium yang bisa dinikmati semua kalangan.</p>
@@ -135,7 +155,7 @@
 </section>
 
 <!-- CTA -->
-<section class="cta">
+<section class="cta" data-reveal>
     <h2>Siap Menikmati Secangkir Kebahagiaan?</h2>
     <p>Pesan kopi favoritmu sekarang dan rasakan pengalaman ngopi yang tak terlupakan.</p>
     <a href="#menu" class="btn gold"><i class="fa-solid fa-bag-shopping"></i> Mulai Pesan</a>
