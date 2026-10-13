@@ -108,3 +108,55 @@ footer{background:var(--coffee-900);color:#e8dccb;padding:3rem 1.5rem 1.5rem;mar
 
 .alert.success{background:#e6f4ea;color:#1e6b3a;border:1px solid #b7dcc2}
 .alert.error{background:#fdecec;color:#9b2222;border:1px solid #f2b8b8}
+
+/* =============================================
+   LUXURY POLISH — efek premium (tambahan)
+   ============================================= */
+
+/* Grain texture overlay — kesan mahal/halus */
+body::after{
+    content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+    opacity:.04;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+}
+
+/* Custom scrollbar emas */
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--cream-100)}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--gold),var(--gold-dark));border-radius:999px;border:2px solid var(--cream-100)}
+::-webkit-scrollbar-thumb:hover{background:var(--gold-dark)}
+::selection{background:var(--gold);color:var(--coffee-900)}
+
+/* Gold button — efek kilau sweep */
+.btn.gold{position:relative;overflow:hidden}
+.btn.gold::before{content:'';position:absolute;top:0;left:-130%;width:60%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.55),transparent);transform:skewX(-20deg);transition:left .65s ease}
+.btn.gold:hover::before{left:140%}
+
+/* Scroll reveal system — delay hanya saat animasi masuk, lalu reset agar hover tetap responsif */
+[data-reveal]{opacity:0;transform:translateY(30px);transition:opacity .75s cubic-bezier(.22,1,.36,1),transform .75s cubic-bezier(.22,1,.36,1);transition-delay:var(--d,0s)}
+[data-reveal].revealed{opacity:1;transform:none;transition-delay:0s}
+@media(prefers-reduced-motion:reduce){[data-reveal]{opacity:1;transform:none;transition:none}}
+
+/* Marquee emas */
+.marquee{background:linear-gradient(90deg,var(--coffee-900),var(--coffee-700) 50%,var(--coffee-900));color:var(--gold);overflow:hidden;padding:.7rem 0;border-top:1px solid rgba(200,161,101,.25);border-bottom:1px solid rgba(200,161,101,.25)}
+.marquee-track{display:flex;gap:3rem;white-space:nowrap;width:max-content;animation:marquee 30s linear infinite;font-family:'Poppins',sans-serif;font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;font-weight:500}
+.marquee-track span{display:inline-flex;align-items:center;gap:3rem}
+.marquee-track i{color:var(--gold);font-size:.7rem;opacity:.65}
+.marquee:hover .marquee-track{animation-play-state:paused}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* Hero headline reveal berurutan */
+.hero-content small,.hero-content h1,.hero-content p,.hero-actions,.hero-stats{animation:heroUp .85s cubic-bezier(.22,1,.36,1) both}
+.hero-content small{animation-delay:.05s}
+.hero-content h1{animation-delay:.16s}
+.hero-content p{animation-delay:.32s}
+.hero-actions{animation-delay:.46s}
+.hero-stats{animation-delay:.6s}
+@keyframes heroUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.hero-content small,.hero-content h1,.hero-content p,.hero-actions,.hero-stats{animation:none}}
+
+/* Gold divider */
+.gold-divider{display:flex;align-items:center;justify-content:center;gap:1rem;margin:0 auto;max-width:220px}
+.gold-divider::before,.gold-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.gold-divider::after{background:linear-gradient(90deg,var(--gold),transparent)}
+.gold-divider i{color:var(--gold-dark);font-size:.85rem}

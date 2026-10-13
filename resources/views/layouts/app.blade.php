@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{{ asset('css/theme.css') }}?v=1">
+    <link rel="stylesheet" href="{{ asset('css/theme.css') }}?v=4">
     @stack('styles')
 </head>
 <body>
@@ -82,6 +82,24 @@
     </footer>
 
     @stack('scripts')
+
+    {{-- Scroll reveal: elemen [data-reveal] muncul halus saat masuk viewport --}}
+    <script>
+    (function(){
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var els = document.querySelectorAll('[data-reveal]');
+        if(reduce || !('IntersectionObserver' in window)){
+            els.forEach(function(el){ el.classList.add('revealed'); });
+            return;
+        }
+        var io = new IntersectionObserver(function(entries){
+            entries.forEach(function(e){
+                if(e.isIntersecting){ e.target.classList.add('revealed'); io.unobserve(e.target); }
+            });
+        },{ threshold:.12, rootMargin:'0px 0px -40px 0px' });
+        els.forEach(function(el){ io.observe(el); });
+    })();
+    </script>
 </body>
 </html>
 

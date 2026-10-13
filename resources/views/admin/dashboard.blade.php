@@ -4,18 +4,6 @@
 @section('page_title','Dashboard')
 
 @section('content')
-    @php
-        // Pembagi tinggi grafik.
-        //
-        // Sebelumnya: max(array_column($chart, 'count') ?: [1]).
-        // Penjagaan itu tidak berfungsi: $chart selalu berisi 7 hari, sehingga
-        // array_column() selalu mengembalikan array 7 elemen — dan array berisi
-        // nol tetap truthy di PHP, jadi nilai cadangan [1] tidak pernah dipakai.
-        // Akibatnya $maxCount bernilai 0 dan baris pembagian di bawah menjadi
-        // Division by zero setiap kali kafe belum punya pesanan sama sekali.
-        $counts = array_column($chart, 'count');
-        $maxCount = max(1, $counts ? max($counts) : 0);
-    @endphp
 
     <div class="stats-grid">
         <div class="stat-card blue">
@@ -68,15 +56,7 @@
                 <h2><i class="fa-solid fa-chart-column"></i> Pesanan 7 Hari Terakhir</h2>
             </div>
             <div class="chart-box">
-                @foreach($chart as $c)
-                    @php $h = max(8, ($c['count']/$maxCount) * 220); @endphp
-                    <div class="chart-bar" style="height:{{ $h }}px" title="{{ $c['label'] }}: {{ $c['count'] }} pesanan">
-                        {{ $c['count'] }}
-                    </div>
-                @endforeach
-            </div>
-            <div class="chart-labels">
-                @foreach($chart as $c) <div>{{ $c['label'] }}</div> @endforeach
+                <canvas id="ordersChart" height="240"></canvas>
             </div>
         </div>
 
@@ -131,4 +111,65 @@
             </table>
         </div>
     </div>
+
+    @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script>
+        (function () {
+            var el = document.getElementById('ordersChart');
+            if (!el || typeof Chart === 'undefined') return;
+            var labels = @json(array_column($chart, 'label'));
+            var counts = @json(array_column($chart, 'count'));
+            var ctx = el.getContext('2d');
+            var grad = ctx.createLinearGradient(0, 0, 0, 240);
+            grad.addColorStop(0, 'rgba(212,163,63,0.85)');
+            grad.addColorStop(1, 'rgba(212,163,63,0.15)');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Pesanan',
+                        data: counts,
+                        backgroundColor: grad,
+                        hoverBackgroundColor: '#b0862a',
+                        borderRadius: 8,
+                        borderSkipped: false,
+                        maxBarThickness: 42
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#2a1c10',
+                            titleColor: '#d4a33f',
+                            bodyColor: '#f6efe1',
+                            padding: 12,
+                            cornerRadius: 10,
+                            callbacks: {
+                                label: function (c) { return ' ' + c.parsed.y + ' pesanan'; }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#6b7280', font: { family: 'Poppins', size: 12 } }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: 'rgba(0,0,0,0.05)' },
+                            border: { display: false },
+                            ticks: { color: '#6b7280', precision: 0, font: { family: 'Poppins', size: 12 } }
+                        }
+                    },
+                    animation: { duration: 900, easing: 'easeOutQuart' }
+                }
+            });
+        })();
+    </script>
+    @endpush
 @endsection

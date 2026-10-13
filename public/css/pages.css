@@ -26,13 +26,13 @@
 /* =========== MENU/PRODUCT =========== */
 .menu-section{padding:2rem 0 4rem}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.75rem}
-.product-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;transition:transform .35s,box-shadow .35s;position:relative}
+.product-card{background:#fff;border-radius:18px;overflow:hidden;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;transition:transform .35s,box-shadow .35s,opacity .75s cubic-bezier(.22,1,.36,1);position:relative}
 .product-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg)}
 .product-image{position:relative;height:220px;overflow:hidden;background:linear-gradient(135deg,var(--cream-100),var(--cream-200))}
 .product-image img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
 .product-card:hover .product-image img{transform:scale(1.08)}
-.product-tag{position:absolute;top:12px;left:12px;background:var(--gold);color:var(--coffee-900);padding:.3rem .75rem;border-radius:999px;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;box-shadow:var(--shadow-sm)}
-.product-fav{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.9);color:var(--coffee-700);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s}
+.product-tag{position:absolute;top:12px;left:12px;z-index:3;background:var(--gold);color:var(--coffee-900);padding:.3rem .75rem;border-radius:999px;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;box-shadow:var(--shadow-sm)}
+.product-fav{position:absolute;top:12px;right:12px;z-index:3;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.9);color:var(--coffee-700);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s}
 .product-fav:hover{background:#fff;color:#e74c3c;transform:scale(1.1)}
 .product-body{padding:1.4rem;display:flex;flex-direction:column;flex:1}
 .rating{color:var(--gold);font-size:.82rem;margin-bottom:.5rem}
@@ -133,3 +133,35 @@
     .page-header{ padding:2rem 1rem; }
     .page-header h1{ font-size:1.6rem; }
 }
+
+/* =============================================
+   MICRO-POLISH — sentuhan premium (tambahan)
+   ============================================= */
+
+/* Hero: Ken Burns — background bergerak halus (kesan sinematik) */
+.hero{ background:linear-gradient(135deg,rgba(43,26,16,.78) 0%,rgba(90,54,32,.55) 100%),url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat; animation:kenburns 26s ease-in-out infinite alternate }
+@keyframes kenburns{ from{background-size:100%} to{background-size:112%} }
+@media(prefers-reduced-motion:reduce){ .hero{animation:none} }
+
+/* Product card: hover border emas + angkat lebih dramatis */
+.product-card{ border:1px solid rgba(200,161,101,0) }
+.product-card:hover{ border-color:rgba(200,161,101,.4) }
+
+/* Product image: sheen kilau saat hover + gradient kedalaman */
+.product-image::after{
+    content:'';position:absolute;top:0;left:-130%;width:60%;height:100%;z-index:2;
+    background:linear-gradient(120deg,transparent,rgba(255,255,255,.4),transparent);
+    transform:skewX(-20deg);transition:left .7s ease;pointer-events:none
+}
+.product-card:hover .product-image::after{ left:140% }
+
+/* Price: emphasis emas saat card di-hover */
+.product-card .price{ transition:color .3s }
+.product-card:hover .price{ color:var(--gold-dark) }
+
+/* Section title: aksen garis emas di bawah judul */
+.section-title h2{ position:relative;padding-bottom:1rem }
+.section-title h2::after{ content:'';position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:60px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent) }
+
+/* Feature icon: sedikit glow saat hover */
+.feature-card:hover .feature-icon{ box-shadow:0 8px 20px rgba(200,161,101,.25) }
